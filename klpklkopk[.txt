@@ -1,0 +1,54 @@
+CREATE TABLE department (
+	Dname varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL,
+    Dnumber INT(11) NOT NULL,
+    Mgr_ssn INT(11) NOT NULL,
+    Mgr_start_date DATE NOT NULL,
+    PRIMARY KEY ( Dnumber)
+);
+
+CREATE TABLE  dependent(
+Essn INT(11) NOT NULL,
+Dependent_name	VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL,
+Sex  VARCHAR(1) NOT NULL,
+Bdate DATE NOT NULL,
+Relationship VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL
+);
+
+CREATE TABLE  employee(
+FName VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL,
+Minit VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL,
+LName VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL,
+Ssn 	INT(11) NOT NULL,
+Bdate DATE NOT NULL,
+ Address VARCHAR(40) NOT NULL,
+ Sex VARCHAR(1) NOT NULL,
+ Salary INT (6) NOT NULL,
+ Super_ssn  INT(1),
+ Dno  INT(1) NOT NULL,
+ PRIMARY KEY(Ssn)
+);
+
+CREATE TABLE dept_location(
+  Dnumber INT(11),
+  Dlocation	VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL
+);
+CREATE TABLE project(
+Pname VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL,
+Pnumber INT(11) NOT NULL,
+PRIMARY KEY (Pnumber),
+Plocation VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci	NOT NULL,
+Dnum INT(11)
+);
+CREATE TABLE  works_on(
+    Essn INT(11) NOT NULL,
+    Pno  INT(11) NOT NULL,
+    Hours DECIMAL(4, 2)
+);
+
+ALTER TABLE  dept_location ADD FOREIGN KEY Dnumber REFERENCES department( Dnumber);
+ALTER TABLE  employee  ADD FOREIGN KEY Dno REFERENCES department( Dnumber);
+ALTER TABLE  project  ADD FOREIGN KEY Dnum REFERENCES department( Dnumber);
+ALTER TABLE   employee ADD FOREIGN KEY  Super_ssn  REFERENCES employee(Ssn);
+ALTER TABLE   works_on ADD FOREIGN KEY  Pno  REFERENCES employee(Ssn);
+ALTER TABLE   works_on ADD FOREIGN KEY  Pno  REFERENCES  project(Pnumber);
+ALTER TABLE  dependent ADD FOREIGN KEY Essn  REFERENCES  employee(Ssn);
